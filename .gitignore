@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.env.local
+*.log
+tsconfig.tsbuildinfo
+__pycache__/
+screen*.png
+dev-prod.html
+dev-prod-scroll.html
+dev-live.html

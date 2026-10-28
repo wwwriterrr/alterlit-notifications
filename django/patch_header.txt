@@ -1,0 +1,24 @@
+# Страница уведомлений /notifications/ — бэк острова (api/notifications/).
+#
+# Ставится рядом со старым кодом и ничего в нём не меняет. Использует уже выложенные
+# функции юзербара из api/notification/notifications.py: SITES_BY_MODE, request_mode,
+# push_notifications_count (счётчик колокольчика после «прочитать» и «удалить»).
+# Очистка HTML — nh3 (уже стоит для редактора).
+#
+# Что внутри:
+#   api/notifications/kinds.py     — вид уведомления по тексту: шаблоны, фильтры вкладок, разбор
+#   api/notifications/group.py     — карточки ленты и группировка (одного вида, об одном объекте, за сутки)
+#   api/notifications/sanitize.py  — очистка HTML уведомления
+#   api/notifications/service.py   — выборки, счётчики, прочитать, удалить
+#   api/notifications/settings.py  — какие уведомления пользователь отключил (мета профиля notify_off)
+#   api/notifications/views.py     — ручки (описание формата — в начале файла)
+#   api/notifications/urls.py
+#   в конце — страница /notifications/, шаблон и индекс
+#
+# Ручки (префикс /api/v1/):
+#   GET  notifications/?category=&unread=1&q=&cursor=   лента
+#   GET  notifications/counts/                          вкладки со счётчиками
+#   POST notifications/read/    {"ids": [..]} | {"all": true}
+#   POST notifications/delete/  {"ids": [..]} | {"all": true, "category", "unread", "q"}
+#        по ids — свои, у is_staff — любые
+#   GET/PUT notifications/settings/                     отключение уведомлений по видам

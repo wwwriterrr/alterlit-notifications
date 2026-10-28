@@ -1,0 +1,930 @@
+/* Страница уведомлений — остров внутри вёрстки сайта; все классы с префиксом nt-. */
+
+#alterlit-notifications {
+  --nt-bg: #fffdf8;
+  --nt-ink: #1e2618;
+  --nt-text: #2c2b24;
+  --nt-muted: #6b6a5e;
+  --nt-faint: #8f8a7c;
+  --nt-line: #ebe3d1;
+  --nt-hover: #f8f3e7;
+  --nt-unread: #fbf4e3;
+  --nt-amber: #e9aa44;
+  --nt-amber-dark: #a66f17;
+  --nt-green: #245326;
+  --nt-red: #b24a3e;
+  --nt-red-soft: #f6e3e0;
+  font: 15px/1.45 'PT Serif', Georgia, serif;
+  color: var(--nt-text);
+}
+#alterlit-notifications *,
+#alterlit-notifications *::before,
+#alterlit-notifications *::after {
+  box-sizing: border-box;
+}
+#alterlit-notifications button {
+  font: inherit;
+}
+/* стили сайта для тегов (main p, a, ul li, img…) не должны попадать внутрь:
+   все правила острова начинаются с #alterlit-notifications, а здесь — сбросы */
+#alterlit-notifications p {
+  margin: 0;
+  line-height: inherit;
+}
+#alterlit-notifications a {
+  color: inherit;
+}
+
+#alterlit-notifications .nt-app {
+  position: relative;
+  text-align: left;
+  max-width: 760px;
+  margin: 0 auto;
+  border: 1px solid var(--nt-line);
+  border-radius: 18px;
+  background: var(--nt-bg);
+  box-shadow: 0 1px 2px rgba(60, 45, 10, 0.04);
+}
+
+/* ── шапка ── */
+#alterlit-notifications .nt-head {
+  padding: 18px 20px 0;
+  border-bottom: 1px solid var(--nt-line);
+  border-radius: 18px 18px 0 0;
+  background: var(--nt-bg);
+}
+#alterlit-notifications .nt-head-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#alterlit-notifications .nt-h1 {
+  display: flex;
+  font-weight: 700;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 0 0;
+  color: var(--nt-ink);
+  font-size: 1.6em;
+  line-height: 1.2;
+}
+#alterlit-notifications .nt-count {
+  min-width: 26px;
+  padding: 2px 8px;
+  border-radius: 13px;
+  background: var(--nt-red);
+  color: #fff;
+  font: 700 0.5em/1.6 system-ui, sans-serif;
+  text-align: center;
+}
+#alterlit-notifications .nt-head-actions {
+  display: flex;
+  gap: 4px;
+}
+
+#alterlit-notifications .nt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--nt-line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--nt-ink);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+#alterlit-notifications .nt-btn:hover:not(:disabled) {
+  background: var(--nt-hover);
+}
+#alterlit-notifications .nt-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+#alterlit-notifications .nt-btn-ghost {
+  border-color: transparent;
+  background: transparent;
+}
+#alterlit-notifications .nt-btn-ghost[aria-pressed='true'] {
+  background: var(--nt-unread);
+  color: var(--nt-amber-dark);
+  font-weight: 700;
+}
+#alterlit-notifications .nt-btn-danger {
+  border-color: var(--nt-red);
+  background: var(--nt-red);
+  color: #fff;
+}
+#alterlit-notifications .nt-btn-danger:hover:not(:disabled) {
+  background: #9b3d32;
+}
+#alterlit-notifications .nt-danger-text {
+  color: var(--nt-red);
+}
+#alterlit-notifications .nt-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--nt-muted);
+  cursor: pointer;
+}
+#alterlit-notifications .nt-icon-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--nt-ink);
+}
+
+/* поиск */
+#alterlit-notifications .nt-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 0;
+}
+#alterlit-notifications .nt-search-row .nt-tab-toggle {
+  height: 42px;
+  border-radius: 12px;
+}
+#alterlit-notifications .nt-search {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  padding: 0 6px 0 12px;
+  border: 1px solid var(--nt-line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--nt-faint);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+#alterlit-notifications .nt-search:focus-within {
+  border-color: var(--nt-amber);
+  box-shadow: 0 0 0 3px rgba(233, 170, 68, 0.18);
+}
+#alterlit-notifications .nt-search input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--nt-ink);
+  font: inherit;
+}
+#alterlit-notifications .nt-search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* вкладки */
+#alterlit-notifications .nt-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 12px -20px 0;
+  /* справа запас под затухание — последняя вкладка видна целиком */
+  padding: 0 44px 12px 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* вкладки, ушедшие за край, плавно гаснут — видно, что ряд прокручивается */
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent);
+}
+#alterlit-notifications .nt-tabs::-webkit-scrollbar {
+  display: none;
+}
+#alterlit-notifications .nt-tab {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--nt-line);
+  border-radius: 17px;
+  background: #fff;
+  color: var(--nt-text);
+  cursor: pointer;
+  white-space: nowrap;
+}
+#alterlit-notifications .nt-tab:hover {
+  background: var(--nt-hover);
+}
+#alterlit-notifications .nt-tab[aria-pressed='true'] {
+  border-color: var(--nt-ink);
+  background: var(--nt-ink);
+  color: #fff;
+}
+#alterlit-notifications .nt-tab-toggle[aria-pressed='true'] {
+  border-color: var(--nt-amber);
+  background: var(--nt-amber);
+  color: #2b1d05;
+}
+#alterlit-notifications .nt-tab-badge {
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--nt-red);
+  color: #fff;
+  font: 700 11px/18px system-ui, sans-serif;
+  text-align: center;
+}
+
+/* ── лента ── */
+#alterlit-notifications .nt-feed {
+  padding: 4px 0 8px;
+}
+#alterlit-notifications .nt-day-title {
+  margin: 0;
+  text-align: left;
+  padding: 16px 20px 6px;
+  color: var(--nt-muted);
+  font: 700 12px/1.3 system-ui, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#alterlit-notifications .nt-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 52px 12px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#alterlit-notifications .nt-card:hover {
+  background: var(--nt-hover);
+}
+#alterlit-notifications .nt-card[data-unread] {
+  background: var(--nt-unread);
+}
+#alterlit-notifications .nt-card[data-unread]:hover {
+  background: #f7eccf;
+}
+#alterlit-notifications .nt-card[data-selected] {
+  background: #f1e6c9;
+}
+#alterlit-notifications .nt-card + .nt-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 20px;
+  left: 78px;
+  border-top: 1px solid var(--nt-line);
+}
+
+#alterlit-notifications .nt-check {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 11px;
+  border: 2px solid #c9bea4;
+  border-radius: 6px;
+  background: #fff;
+  color: #fff;
+}
+#alterlit-notifications .nt-card[data-selected] .nt-check {
+  border-color: var(--nt-green);
+  background: var(--nt-green);
+}
+
+/* аватар и значок вида */
+#alterlit-notifications .nt-pic {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 44px;
+}
+#alterlit-notifications .nt-ava {
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1;
+}
+#alterlit-notifications .nt-ava img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+#alterlit-notifications .nt-ava img[data-loaded] {
+  opacity: 1;
+}
+/* несколько авторов — стопка */
+#alterlit-notifications .nt-stack {
+  position: relative;
+  display: block;
+  width: 44px;
+  height: 44px;
+}
+#alterlit-notifications .nt-stack .nt-ava {
+  position: absolute;
+  box-shadow: 0 0 0 2px var(--nt-bg);
+}
+#alterlit-notifications .nt-card[data-unread] .nt-stack .nt-ava {
+  box-shadow: 0 0 0 2px var(--nt-unread);
+}
+#alterlit-notifications .nt-stack-1 .nt-ava {
+  inset: 0;
+}
+#alterlit-notifications .nt-stack-2 .nt-ava:nth-child(1) {
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+#alterlit-notifications .nt-stack-2 .nt-ava:nth-child(2) {
+  right: -2px;
+  bottom: -2px;
+  z-index: 2;
+}
+#alterlit-notifications .nt-kind-ic {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+#alterlit-notifications .nt-badge {
+  position: absolute;
+  z-index: 3;
+  right: -6px;
+  bottom: -6px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--nt-bg);
+  border-radius: 50%;
+  color: #fff;
+}
+#alterlit-notifications .nt-card[data-unread] .nt-badge {
+  border-color: var(--nt-unread);
+}
+#alterlit-notifications .nt-c-like {
+  background: #e0485f;
+  color: #fff;
+}
+#alterlit-notifications .nt-c-gray {
+  background: #8f8a7c;
+  color: #fff;
+}
+#alterlit-notifications .nt-c-blue {
+  background: #3f7ec1;
+  color: #fff;
+}
+#alterlit-notifications .nt-c-violet {
+  background: #7a5cc4;
+  color: #fff;
+}
+#alterlit-notifications .nt-c-amber {
+  background: var(--nt-amber);
+  color: #3b2706;
+}
+#alterlit-notifications .nt-c-green {
+  background: #3d8a52;
+  color: #fff;
+}
+#alterlit-notifications .nt-c-red {
+  background: var(--nt-red);
+  color: #fff;
+}
+#alterlit-notifications .nt-kind-ic.nt-c-like {
+  background: #fbe3e7;
+  color: #d33a52;
+}
+#alterlit-notifications .nt-kind-ic.nt-c-gray {
+  background: #eeeae0;
+  color: #6b6a5e;
+}
+#alterlit-notifications .nt-kind-ic.nt-c-blue {
+  background: #e2edf8;
+  color: #2f6cad;
+}
+#alterlit-notifications .nt-kind-ic.nt-c-violet {
+  background: #ece6f8;
+  color: #6747b4;
+}
+#alterlit-notifications .nt-kind-ic.nt-c-amber {
+  background: #fbefd6;
+  color: var(--nt-amber-dark);
+}
+#alterlit-notifications .nt-kind-ic.nt-c-green {
+  background: #e2f0e5;
+  color: #2f7444;
+}
+#alterlit-notifications .nt-kind-ic.nt-c-red {
+  background: var(--nt-red-soft);
+  color: var(--nt-red);
+}
+
+/* текст */
+#alterlit-notifications .nt-body {
+  flex: 1;
+  min-width: 0;
+}
+#alterlit-notifications .nt-text {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+#alterlit-notifications .nt-text a,
+#alterlit-notifications .nt-html a {
+  color: var(--nt-ink);
+}
+#alterlit-notifications .nt-name {
+  font-weight: 700;
+  text-decoration: none;
+}
+#alterlit-notifications .nt-name:hover,
+#alterlit-notifications .nt-title:hover {
+  text-decoration: underline;
+}
+#alterlit-notifications .nt-title {
+  font-weight: 700;
+  text-decoration: none;
+}
+#alterlit-notifications .nt-html br + br {
+  display: none;
+}
+#alterlit-notifications .nt-html .ntf-comment {
+  margin-top: 4px;
+}
+#alterlit-notifications .nt-reason {
+  margin: 4px 0 0;
+  color: var(--nt-red);
+  font-size: 0.93em;
+}
+#alterlit-notifications .nt-quote {
+  display: -webkit-box;
+  margin: 6px 0 0;
+  padding: 6px 12px;
+  overflow: hidden;
+  border-left: 3px solid #e4d6b4;
+  border-radius: 0 8px 8px 0;
+  background: rgba(233, 170, 68, 0.08);
+  color: #4a473c;
+  font-size: 0.95em;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+#alterlit-notifications .nt-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  color: var(--nt-faint);
+  font: 13px/1.4 system-ui, sans-serif;
+}
+#alterlit-notifications .nt-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--nt-amber-dark);
+  font: 600 13px/1.4 system-ui, sans-serif;
+  cursor: pointer;
+}
+#alterlit-notifications .nt-more[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+#alterlit-notifications .nt-members {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 8px 0 0;
+  padding: 6px;
+  border: 1px solid var(--nt-line);
+  border-radius: 12px;
+  background: #fff;
+  list-style: none;
+  cursor: default;
+}
+#alterlit-notifications .nt-members li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px;
+  border-radius: 8px;
+}
+#alterlit-notifications .nt-members li[data-unread] {
+  background: var(--nt-unread);
+}
+#alterlit-notifications .nt-members li > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding-top: 3px;
+}
+#alterlit-notifications .nt-members time {
+  flex: none;
+  padding-top: 4px;
+  color: var(--nt-faint);
+  font: 12px/1.4 system-ui, sans-serif;
+}
+#alterlit-notifications .nt-member-text {
+  overflow: hidden;
+  color: var(--nt-text);
+  font-size: 0.93em;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* непрочитано и меню */
+#alterlit-notifications .nt-dot {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: #3f7ec1;
+}
+#alterlit-notifications .nt-menu-wrap {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+}
+#alterlit-notifications .nt-card-menu {
+  opacity: 0;
+  background: var(--nt-bg);
+}
+#alterlit-notifications .nt-card:hover .nt-card-menu,
+#alterlit-notifications .nt-card-menu:focus-visible,
+#alterlit-notifications .nt-card-menu[aria-expanded='true'] {
+  opacity: 1;
+}
+#alterlit-notifications .nt-card[data-unread]:hover .nt-dot {
+  opacity: 0;
+}
+#alterlit-notifications .nt-menu {
+  position: absolute;
+  z-index: 20;
+  top: 36px;
+  right: 0;
+  min-width: 220px;
+  padding: 6px;
+  border: 1px solid var(--nt-line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(40, 30, 10, 0.16);
+}
+#alterlit-notifications .nt-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--nt-ink);
+  text-align: left;
+  cursor: pointer;
+}
+#alterlit-notifications .nt-menu button:hover {
+  background: var(--nt-hover);
+}
+#alterlit-notifications .nt-menu .nt-danger {
+  color: var(--nt-red);
+}
+
+/* пусто, конец, загрузка */
+#alterlit-notifications .nt-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 56px 20px;
+  color: var(--nt-muted);
+  text-align: center;
+}
+#alterlit-notifications .nt-empty p {
+  margin: 0;
+}
+#alterlit-notifications .nt-empty-ic {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--nt-unread);
+  color: var(--nt-amber-dark);
+}
+#alterlit-notifications .nt-sentinel {
+  display: flex;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px;
+}
+#alterlit-notifications .nt-end {
+  color: var(--nt-faint);
+  font: 13px/1.4 system-ui, sans-serif;
+}
+#alterlit-notifications .nt-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--nt-line);
+  border-top-color: var(--nt-amber);
+  border-radius: 50%;
+  animation: nt-spin 0.8s linear infinite;
+}
+@keyframes nt-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+#alterlit-notifications .nt-card-skel {
+  cursor: default;
+}
+#alterlit-notifications .nt-card-skel:hover {
+  background: none;
+}
+#alterlit-notifications .nt-skel {
+  display: block;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f1eadb 25%, #f8f3e8 50%, #f1eadb 75%);
+  background-size: 200% 100%;
+  animation: nt-shimmer 1.4s ease-in-out infinite;
+}
+#alterlit-notifications .nt-skel-day {
+  width: 80px;
+  height: 12px;
+  margin: 18px 20px 8px;
+}
+#alterlit-notifications .nt-skel-ava {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+#alterlit-notifications .nt-skel-line {
+  height: 14px;
+  margin: 6px 0;
+}
+#alterlit-notifications .nt-skel-short {
+  width: 45%;
+}
+@keyframes nt-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* панель выбора — прилипает к низу окна */
+#alterlit-notifications .nt-selbar {
+  position: sticky;
+  z-index: 15;
+  bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 12px 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--nt-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 10px 30px rgba(40, 30, 10, 0.16);
+}
+#alterlit-notifications .nt-selbar-count {
+  margin-right: 4px;
+  font-weight: 700;
+}
+#alterlit-notifications .nt-selbar-gap {
+  flex: 1;
+}
+
+/* окно подтверждения и тост */
+#alterlit-notifications .nt-dialog {
+  width: min(420px, calc(100vw - 32px));
+  padding: 22px;
+  border: 0;
+  border-radius: 16px;
+  background: #fffdf8;
+  color: #1e2618;
+  font: 15px/1.45 'PT Serif', Georgia, serif;
+  box-shadow: 0 20px 60px rgba(30, 20, 5, 0.3);
+}
+#alterlit-notifications .nt-dialog::backdrop {
+  background: rgba(30, 25, 15, 0.45);
+}
+#alterlit-notifications .nt-dialog-title {
+  margin: 0 0 8px;
+  font-size: 1.25em;
+  font-weight: 700;
+}
+#alterlit-notifications .nt-dialog p {
+  margin: 0 0 18px;
+  color: #4a473c;
+}
+#alterlit-notifications .nt-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+#alterlit-notifications .nt-toast {
+  position: fixed;
+  z-index: 100;
+  bottom: 24px;
+  left: 50%;
+  max-width: calc(100vw - 32px);
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #1e2618;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  transform: translateX(-50%);
+  animation: nt-toast 0.2s ease-out;
+}
+#alterlit-notifications .nt-toast[data-error] {
+  background: var(--nt-red);
+}
+@keyframes nt-toast {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+}
+
+#alterlit-notifications .nt-show-xs {
+  display: none;
+}
+
+/* настройки уведомлений */
+#alterlit-notifications .nt-gear {
+  width: 36px;
+  height: 36px;
+  color: var(--nt-ink);
+}
+#alterlit-notifications .nt-settings {
+  width: min(460px, calc(100vw - 32px));
+}
+#alterlit-notifications .nt-settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+#alterlit-notifications .nt-settings-head .nt-dialog-title {
+  margin: 0;
+}
+#alterlit-notifications .nt-settings-note {
+  margin: 6px 0 14px;
+  color: #6b6a5e;
+  font-size: 0.93em;
+}
+#alterlit-notifications .nt-settings-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 0;
+}
+#alterlit-notifications .nt-settings-group {
+  margin: 0 0 14px;
+  padding: 4px 0;
+  border-top: 1px solid var(--nt-line);
+}
+#alterlit-notifications .nt-settings-group-title {
+  padding: 10px 0 4px;
+  color: var(--nt-muted);
+  font: 700 12px/1.3 system-ui, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+#alterlit-notifications .nt-switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 0;
+  cursor: pointer;
+}
+#alterlit-notifications .nt-switch {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 13px;
+  background: #d7cfbd;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+#alterlit-notifications .nt-switch i {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.18s;
+}
+#alterlit-notifications .nt-switch[aria-checked='true'] {
+  background: var(--nt-green);
+}
+#alterlit-notifications .nt-switch[aria-checked='true'] i {
+  transform: translateX(18px);
+}
+#alterlit-notifications .nt-switch:focus-visible {
+  outline: 2px solid var(--nt-amber) !important;
+  outline-offset: 2px;
+}
+
+/* ── узкие экраны ── */
+@media (max-width: 600px) {
+  #alterlit-notifications .nt-app {
+    border-width: 0;
+    border-radius: 0;
+  }
+  #alterlit-notifications .nt-head {
+    border-radius: 0;
+  }
+  #alterlit-notifications .nt-head {
+    padding: 14px 14px 0;
+  }
+  #alterlit-notifications .nt-h1 {
+    font-size: 1.35em;
+  }
+  #alterlit-notifications .nt-tabs {
+    margin: 10px -14px 0;
+    padding: 0 40px 10px 14px;
+  }
+  #alterlit-notifications .nt-hide-xs {
+    display: none;
+  }
+  #alterlit-notifications .nt-show-xs {
+    display: inline;
+  }
+  #alterlit-notifications .nt-card {
+    gap: 12px;
+    padding: 12px 44px 12px 14px;
+  }
+  #alterlit-notifications .nt-card + .nt-card::before {
+    right: 14px;
+    left: 70px;
+  }
+  #alterlit-notifications .nt-day-title {
+    padding: 14px 14px 6px;
+  }
+  /* на телефоне меню у карточки видно всегда — наведения нет */
+  #alterlit-notifications .nt-card-menu {
+    opacity: 1;
+  }
+  #alterlit-notifications .nt-card[data-unread] .nt-dot {
+    top: auto;
+    right: 18px;
+    bottom: 16px;
+    margin: 0;
+  }
+  #alterlit-notifications .nt-menu-wrap {
+    right: 6px;
+  }
+  #alterlit-notifications .nt-selbar {
+    margin: 0 8px 8px;
+  }
+  #alterlit-notifications .nt-selbar-count {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #alterlit-notifications .nt-skel,
+#alterlit-notifications .nt-spinner,
+#alterlit-notifications .nt-toast {
+    animation: none;
+  }
+}
+
+/* у стопки из двух аватаров правый нижний угол занят вторым — значок слева */
+#alterlit-notifications .nt-stack-2 + .nt-badge {
+  right: auto;
+  left: -6px;
+}

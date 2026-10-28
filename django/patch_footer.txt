@@ -1,0 +1,49 @@
+# ── 9. api/urls.py — подключить (префикс /api/v1/) ──────────────────────────
+#     path('notifications/', include('api.notifications.urls')),
+
+
+# ── 10. Страница /notifications/ ─────────────────────────────────────────────
+# Вьюха (например, в blog/views.py) и урл в корневом urls.py:
+#
+#     from django.contrib.auth.decorators import login_required
+#     from django.views.decorators.csrf import ensure_csrf_cookie
+#
+#     @login_required
+#     @ensure_csrf_cookie
+#     def notifications_page(request):
+#         return render(request, 'notifications.html')
+#
+#     path('notifications/', notifications_page, name='notifications'),
+#
+# Шаблон templates/notifications.html — внутри общей вёрстки сайта (блоки — свои):
+#
+#     {% block content %}
+#       <link rel="stylesheet" href="/assets/notifications/notifications.css?v=1">
+#       <div id="alterlit-notifications" data-csrf="{{ csrf_token }}"></div>
+#       <script type="module" src="/assets/notifications/notifications.js?v=1"></script>
+#     {% endblock %}
+
+
+# ── 11. Отключённые уведомления не создаются — blog/models.py, Notification ─────
+# create_notif заменить целиком. Заодно статус пишется сразу при создании: раньше уведомление
+# сохранялось дважды (create, затем save со статусом), и в сокет уходило со статусом "I".
+#
+#     @staticmethod
+#     def create_notif(to, content, status="I", site="AL"):
+#         from api.notifications.settings import is_muted
+#
+#         if status not in [x[0] for x in Notification.STATUSES]:
+#             status = "I"
+#         if is_muted(to, status, content):
+#             return False
+#         Notification.objects.create(to=to, content=content, status=status, site=site)
+#         return True
+
+
+# ── 12. Индекс для вкладок со статусом (комментарии, упоминания, финансы…) ──
+# blog/models.py, Notification.Meta.indexes — добавить третий, затем makemigrations + migrate:
+#
+#     models.Index(fields=["to", "status", "date"], name="notif_to_status_date"),
+#
+# Остальные вкладки (оценки, публикации) отличаются только текстом — их ищут подстрокой
+# в пределах уведомлений одного пользователя по уже имеющемуся notif_to_date.
